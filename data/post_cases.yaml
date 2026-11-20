@@ -1,0 +1,9 @@
+# D5 作业：数据驱动样例
+# 用 @pytest.mark.parametrize 配合 yaml 数据实现"一份逻辑、多组数据"
+- post_id: 1
+  expected_user_id: 1
+- post_id: 2
+  expected_user_id: 1
+# TODO(D5)：再补两组，其中至少一组反例（如不存在的 id，断言 404）
+- post_id: 99999
+  expected_status: 404

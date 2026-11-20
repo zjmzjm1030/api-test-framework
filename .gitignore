@@ -1,0 +1,23 @@
+# 虚拟环境
+.venv/
+venv/
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 测试报告与日志
+reports/
+logs/
+*.log
+allure-results/
+allure-report/
+
+# 本地环境变量（密钥绝不入库）
+.env
+
+# IDE
+.idea/
+.vscode/
+.DS_Store
