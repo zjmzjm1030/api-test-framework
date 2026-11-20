@@ -14,7 +14,7 @@ CONFIG_DIR = Path(__file__).resolve().parent.parent / "config"
 
 
 class Settings(BaseModel):
-    """配置模型。TODO(D2)：理解每个字段为什么需要，后续 D3 的 HttpClient 会依赖它。"""
+    """配置模型。"""
     env: str
     base_url: str
     timeout: int
@@ -25,9 +25,8 @@ class Settings(BaseModel):
 def load_settings(env: str = "dev") -> Settings:
     """根据环境名加载 yaml 并转成 Settings 对象。
 
-    TODO(D2) 自己实现：
-        1. 拼出配置文件路径 CONFIG_DIR / f"{env}.yaml"
-        2. 用 yaml.safe_load 读取
-        3. return Settings(**data)
     """
-    raise NotImplementedError("D2 作业：实现配置加载")
+    CONFIG_PATH = CONFIG_DIR / f"{env}.yaml"
+    with open(CONFIG_PATH,encoding="utf-8") as f:
+        cfg_data = yaml.safe_load(f)
+    return Settings(**cfg_data)
