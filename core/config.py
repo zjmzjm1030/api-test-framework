@@ -27,6 +27,6 @@ def load_settings(env: str = "dev") -> Settings:
 
     """
     CONFIG_PATH = CONFIG_DIR / f"{env}.yaml"
-    with open(CONFIG_PATH,encoding="utf-8") as f:
+    with open(CONFIG_PATH,encoding="utf-8") as f:#safe_load() 的参数必须是文件对象或 yaml 文本内容，不是文件路径，用with 把文件打开
         cfg_data = yaml.safe_load(f)
-    return Settings(**cfg_data)
+    return Settings(**cfg_data)#**按 key 拆成一个个字段

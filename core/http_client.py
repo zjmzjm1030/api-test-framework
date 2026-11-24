@@ -13,30 +13,26 @@ class HttpClient:
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self.retry_times = retry_times
-        # TODO(D3)：初始化 requests.Session()，思考为什么用 Session 而不是每次 requests.get
-        self.session = None
+        self.session = requests.Session()
 
     def request(self, method: str, path: str, **kwargs):
-        """统一请求入口。
-
-        TODO(D3) 自己实现：
-            1. url = self.base_url + path
-            2. 注入 timeout
-            3. 发送请求，捕获超时/连接异常并按 retry_times 重试
-            4. 打印请求方法、URL、状态码、耗时（这就是 D6 报告附件的素材）
-            5. 返回 response 对象
-        """
-        raise NotImplementedError("D3 作业：实现统一请求与重试")
+        for attempt in range(self.retry_times + 1):
+            try:
+                return self.session.request(method, self.base_url + path, timeout=self.timeout, **kwargs)
+            except (requests.exceptions.Timeout, requests.exceptions.ConnectionError):
+                if attempt == self.retry_times:   # 已经是最后一轮
+                    raise
+                print(f"第{attempt+1}次尝试失败，准备重试")
 
     # TODO(D3)：用 request() 包装出 get/post/put/delete 四个方法
     def get(self, path, **kwargs):
-        raise NotImplementedError
+        return self.request("GET", path, **kwargs)
 
     def post(self, path, **kwargs):
-        raise NotImplementedError
+        return self.request("POST", path, **kwargs)
 
     def put(self, path, **kwargs):
-        raise NotImplementedError
+        return self.request("PUT", path, **kwargs)
 
     def delete(self, path, **kwargs):
-        raise NotImplementedError
+        return self.request("DELETE", path, **kwargs)
