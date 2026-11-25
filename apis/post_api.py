@@ -29,3 +29,5 @@ class PostApi:
     def delete_post(self, post_id: int):
         """DELETE /posts/{id} —— TODO(D4) 实现"""
         return self.client.delete(f"/posts/{post_id}")
+
+    

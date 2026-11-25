@@ -1,9 +1,5 @@
-import pytest 
-from core.http_client import HttpClient
-from apis.post_api import PostApi
 
-
-
+import allure
 
 def test_list_posts(post_api):
     resp = post_api.list_posts()
@@ -20,7 +16,7 @@ def test_create_post(post_api):
     assert resp.status_code == 201
     assert resp.json()["title"]=="测试标题"
     assert resp.json()["userId"]==1
-
+    allure.attach(str(resp.json()), name="响应数据", attachment_type=allure.attachment_type.TEXT)
 def test_update_post(post_api):
     resp = post_api.update_post(1,title="新标题",body="新内容")
     assert resp.status_code == 200
@@ -30,4 +26,3 @@ def test_update_post(post_api):
 def test_delete_post(post_api):
     resp =  post_api.delete_post(1)
     assert resp.status_code ==200
-    
