@@ -1,7 +1,7 @@
 # D2 作业：测试环境配置（与 dev 体现差异，例如超时更长、开启重试）
 env: test
 base_url: https://jsonplaceholder.typicode.com
-timeout: 15
+timeout: 30
 # TODO(D2)：与 dev.yaml 做出区别，例如 retry_times: 2
 retry_times: 2
 log_level: INFO

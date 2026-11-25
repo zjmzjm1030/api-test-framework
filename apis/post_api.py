@@ -20,7 +20,7 @@ class PostApi:
 
     def create_post(self, title: str, body: str, user_id: int):
         """POST /posts —— TODO(D4) 实现，思考 body 用 dict 怎么传"""
-        return self.client.post("/posts",json={"title": title, "body": body, "userId": userId})
+        return self.client.post("/posts",json={"title": title, "body": body, "userId": user_id})
 
     def update_post(self, post_id: int, **fields):
         """PUT /posts/{id} —— TODO(D4) 实现"""

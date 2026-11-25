@@ -2,7 +2,7 @@
 # 被测系统：JSONPlaceholder（免费公开 API，无需鉴权）
 env: dev
 base_url: https://jsonplaceholder.typicode.com
-timeout: 10
+timeout: 30
 # TODO(D2)：补充重试次数、日志级别等字段，并在 test.yaml 里做出差异
-retry_times: 0
+retry_times: 2
 log_level: DEBUG
