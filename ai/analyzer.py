@@ -6,10 +6,10 @@
 - 结论写进 Allure 报告，体现「大模型 API 工程化调用」完整链路
 """
 import os
-
+import requests
 
 class FailureAnalyzer:
-    def __init__(self, api_key: str | None = None, model: str = "deepseek-chat"):
+    def __init__(self, api_key: str | None = None, model: str = "deepseek-flash"):
         # 密钥只从环境变量读，绝不硬编码——这是面试必考点
         self.api_key = api_key or os.getenv("LLM_API_KEY")
         self.model = model
@@ -24,4 +24,38 @@ class FailureAnalyzer:
             4. 处理超时、非 200、限流 429 三类异常，保证 AI 挂了不影响主测试流程
             5. 返回模型文本结论
         """
-        raise NotImplementedError("D7 作业：实现大模型归因调用")
+        if not self.api_key:
+            return "AI 归因跳过：未配置 LLM_API_KEY"
+        system_prompt = "你是一个测试失败归因助手，只能输出四类之一：环境问题/用例数据问题/疑似真实Bug/框架问题，并附一句话理由"    
+        user_prompt = f"请分析这次失败：{failure_context}"
+        messages = [
+            {"role":"system","content":system_prompt},
+            {"role":"user","content":user_prompt}
+        ]
+        
+        try:
+            resp = requests.post(
+            "https://api.deepseek.com/chat/completions",
+            headers={
+                "Content-Type":"application/json",
+                "Authorization":f"Bearer {self.api_key}",
+                },
+            json={
+                "model":self.model,
+                "messages":messages
+            },
+        timeout=30,
+        )
+            if resp.status_code == 429:
+                return f"AI 归因限流，跳过"
+            elif resp.status_code != 200:
+                return f"AI归因失败http{resp.status_code}"
+            return resp.json()["choices"][0]["message"]["content"]
+        except requests.exceptions.Timeout:
+            return f"AI归因超时,跳过"
+        except requests.exceptions.ConnectionError:
+            return f"AI链接不上,跳过"
+        except Exception as e:
+            return f"AI 归因异常：{e}"
+        
+            

@@ -10,6 +10,9 @@ import pytest
 from core.config import load_settings
 from core.http_client import HttpClient
 from apis.post_api import PostApi
+from dotenv import load_dotenv #把 .env 文件里的配置「读进」当前 Python 程序的环境变量里
+
+load_dotenv()
 
 def pytest_addoption(parser):
     parser.addoption(
