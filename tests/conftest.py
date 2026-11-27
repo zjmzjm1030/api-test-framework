@@ -7,11 +7,12 @@ D5 在这里实现：
 - post_api 夹具：用例里直接 def test_xxx(post_api) 就能用
 """
 import pytest
+import allure
 from core.config import load_settings
 from core.http_client import HttpClient
 from apis.post_api import PostApi
 from dotenv import load_dotenv #把 .env 文件里的配置「读进」当前 Python 程序的环境变量里
-
+from ai.analyzer import FailureAnalyzer
 load_dotenv()
 
 def pytest_addoption(parser):
@@ -38,3 +39,26 @@ def http_client(settings):
 @pytest.fixture(scope="session")
 def post_api(http_client):
     return PostApi(http_client)
+
+@pytest.fixture(scope="session")
+def failure_analyzer():
+    return FailureAnalyzer()
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item,call):
+    outcome = yield
+    report = outcome.get_result()
+    
+    if report.when == "call" and report.failed:
+        analyzer = item.funcargs.get("failure_analyzer")
+        if analyzer is None:
+            return
+        
+        failure_context={
+            "test_name": item.name,
+            "error":str(call.excinfo.value),
+            "log":(report.longrepr),
+        }
+
+        result = analyzer.analyze(failure_context)
+        allure.attach(result,name="AI归因结论",attachment_type=allure.attachment_type.TEXT)
