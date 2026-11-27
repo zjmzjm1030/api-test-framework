@@ -1,0 +1,26 @@
+# D8 作业：CI 流水线
+# 目标：push 到 main 自动跑用例；每晚 23:00（北京时间）定时全量回归
+name: API Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  schedule:
+    # TODO(D8)：UTC 15:00 = 北京时间 23:00，确认 cron 表达式
+    - cron: "0 15 * * *"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # TODO(D8)：补全 pip install、pytest 执行、Allure 报告上传步骤
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      - name: Run tests
+        run: python -m pytest -v --alluredir=reports/allure-results
