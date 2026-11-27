@@ -29,14 +29,14 @@ pytest                            # D1 验收：3 条 smoke 用例全绿
 
 ## 进度看板
 
-- [x] D1 项目骨架 + 本地环境
-- [ ] D2 多环境配置（`--env` 切换 + pydantic 校验）
-- [ ] D3 HttpClient（超时/重试/统一日志）
-- [ ] D4 业务接口层 + 第一条 CRUD 用例
-- [ ] D5 fixture + 数据驱动
-- [ ] D6 Allure 报告 + 失败重跑
-- [ ] D7 AI 失败归因
-- [ ] D8 GitHub Actions CI
+- [✅] D1 项目骨架 + 本地环境
+- [✅] D2 多环境配置（`--env` 切换 + pydantic 校验）
+- [✅] D3 HttpClient（超时/重试/统一日志）
+- [✅] D4 业务接口层 + 第一条 CRUD 用例
+- [✅] D5 全局fixture + 数据驱动+用例重构
+- [✅] D6 Allure 报告 + 失败重跑
+- [✅] D7 AI 失败归因（调用DEEPSOEEK的API分析）
+- [✅] D8 失败自动触发AI归因+写入Allure报告+GitHub Actions CI
 - [ ] D9 README 完善 + 模拟面试
 - [ ] D10 缓冲 / 简历项目段落定稿
 
