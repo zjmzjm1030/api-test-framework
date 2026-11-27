@@ -35,8 +35,9 @@ pytest                            # D1 验收：3 条 smoke 用例全绿
 - [x] D4 业务接口层 + 第一条 CRUD 用例
 - [x] D5 全局fixture + 数据驱动+用例重构
 - [x] D6 Allure 报告 + 失败重跑
-- [x] D7 AI 失败归因（调用DEEPSOEEK的API分析）
-- [x] D8 失败自动触发AI归因+写入Allure报告+GitHub Actions CI
+- [x] D7 AI 失败归因（调用DEEPSEEK的API分析）
+- [x] D8 失败自动触发AI归因+写入Allure报告
+- [x]  GitHub Actions CI
 - [ ] D9 README 完善 + 模拟面试
 - [ ] D10 缓冲 / 简历项目段落定稿
 
